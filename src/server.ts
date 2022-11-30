@@ -15,11 +15,11 @@ router.get('/', (req, res) => {
 })
 
 // For development testing:
-app.use('/', router);
-app.listen(5000, () => {
-  console.log('Server started');
-})
+// app.use('/', router);
+// app.listen(5000, () => {
+//   console.log('Server started');
+// })
 
 // For production:
-// app.use('/.netlify/functions/server', router);
-// export const handler = serverless(app);
+app.use('/.netlify/functions/server', router);
+export const handler = serverless(app);
