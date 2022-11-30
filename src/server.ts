@@ -9,11 +9,17 @@ const app = express();
 app.use(cors());
 
 router.get('/', (req, res) => {
-    res.json({
-        'Hello': 'from Ta-y-take_team',
-    })
+  res.json({
+    'Hello': 'from Ta-y-take_team',
+  })
 })
 
-app.use('/.netlify/functions/server', router);
+// For development testing:
+app.use('/', router);
+app.listen(5000, () => {
+  console.log('Server started');
+})
 
-export const handler = serverless(app);
+// For production:
+// app.use('/.netlify/functions/server', router);
+// export const handler = serverless(app);
