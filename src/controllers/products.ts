@@ -4,5 +4,6 @@ import path from 'path';
 
 export const getAll = async (req: Request, res: Response) => {
   const products = fs.readFileSync(path.join(__dirname, '../../public/api/phones.json'));
+  
   res.send(products.toString());
 }
