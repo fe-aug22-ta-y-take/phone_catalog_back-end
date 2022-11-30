@@ -1,3 +1,2 @@
-[functions]
-  directory = "src"
-  included_files = ["src/api/phones.json"]
+[build]
+  functions = "functions"
