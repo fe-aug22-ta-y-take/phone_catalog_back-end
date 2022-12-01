@@ -4,17 +4,11 @@ import path from 'path';
 
 export const getImage = (req: Request, res: Response) => {
   try {
-    const imgLink = req.originalUrl;
+    const imgLink = req.originalUrl.slice(1);
 
     res.setHeader('Content-Type', 'image/jpeg');
 
-    const image = fs.createReadStream(path.join(__dirname, `${imgLink.slice(0)}`));
-
-    image.on('error', () => {
-      res.sendStatus(500);
-
-      return;
-    });
+    const image = fs.createReadStream(path.resolve(__dirname, imgLink));
 
     image.pipe(res);
 
