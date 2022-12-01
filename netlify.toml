@@ -4,4 +4,4 @@
 
 [functions]
   directory = "src"
-  included_files = ["src/api/phones.json"]
+  included_files = ["src/api/**"]
