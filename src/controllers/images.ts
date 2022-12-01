@@ -4,7 +4,7 @@ import path from 'path';
 
 export const getImage = (req: Request, res: Response) => {
   try {
-    const imgLink = req.originalUrl.slice(1);
+    const imgLink = req.originalUrl.split('server')[1].slice(1);
 
     res.setHeader('Content-Type', 'image/jpeg');
 
