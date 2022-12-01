@@ -19,7 +19,7 @@ app.get(BASE_NETLIFY_URL, (req, res) => {
   + '<h2>GET to /static/ + image-value from phone-object in phones.json - To get appropriate image</h2>');
 });
 
-app.use('/api', imagesRouter);
+app.use(`${BASE_NETLIFY_URL}/api`, imagesRouter);
 
 app.use(`${BASE_NETLIFY_URL}/products`, productsRouter);
 
