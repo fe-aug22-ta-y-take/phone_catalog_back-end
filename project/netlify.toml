@@ -1,4 +1,8 @@
 [build]
+  base = "project/"
+  publish = "dist/"
   functions = "functions"
+
 [functions]
+  directory = "src"
   included_files = ["src/api/phones.json"]
