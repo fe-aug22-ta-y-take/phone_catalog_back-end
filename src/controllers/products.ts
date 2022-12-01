@@ -4,7 +4,7 @@ import path from 'path';
 
 
 export const getAll = async (req: Request, res: Response) => {
-  const products = fs.readFileSync(path.resolve(__dirname, '..', 'src', 'api', 'phones.json'));
+  const products = fs.readFileSync(path.resolve(__dirname, 'src', 'api', 'phones.json'));
 
   res.send(products.toString());
 }
