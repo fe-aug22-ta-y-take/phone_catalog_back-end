@@ -8,10 +8,19 @@ export const getAll = async (req: Request, res: Response) => {
       path.resolve(__dirname, 'api', 'phones.json')
     );
 
+    const products = JSON.parse(data.toString());
+
+    const phonesResults = {
+      edges: [],
+      count: products.length,
+    }
+
     const { limit, offset } = req.query;
 
     if (!limit && !offset) {
-      res.send(data.toString());
+      phonesResults.edges = products;
+
+      res.send(JSON.stringify(phonesResults));
 
       return;
     }
@@ -19,27 +28,12 @@ export const getAll = async (req: Request, res: Response) => {
     const numbLimit = Number(limit);
     const numbOffset = Number(offset);
 
-    const products = JSON.parse(data.toString());
-
     const startIndex = numbLimit * (numbOffset - 1);
     const endIndex = numbLimit * numbOffset;
 
-    res.send(JSON.stringify(products.slice(startIndex, endIndex)));
+    phonesResults.edges = products.slice(startIndex, endIndex);
 
-  } catch (error) {
-    res.sendStatus(500);
-  }
-}
-
-export const getLength = async (req: Request, res: Response) => {
-  try {
-    const data = fs.readFileSync(
-      path.resolve(__dirname, 'api', 'phones.json')
-    );
-
-    const products = JSON.parse(data.toString());
-
-    res.send(String(products.length));
+    res.send(JSON.stringify(phonesResults));
 
   } catch (error) {
     res.sendStatus(500);

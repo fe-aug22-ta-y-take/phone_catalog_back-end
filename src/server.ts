@@ -12,9 +12,8 @@ app.use(express.json());
 
 app.get(BASE_NETLIFY_URL, (req, res) => {
   res.send('<h1>Ta-y-take_team server</h1>'
-  + '<h2>GET to /products - To get all phones in json</h2>'
-  + '<h2>GET to /products?limit=16&offset=1 - To get first 16 phones</h2>'
-  + '<h2>GET to /products/length - To get current length of the products array</h2>'
+  + '<h2>GET to /products/phones - get interface PhonesResults = { edges: Phone[], count: number } in json</h2>'
+  + '<h2>GET to /products/phones?limit=16&offset=1 - get PhonesResults with first 16 phones</h2>'
   + '<h2>GET to https://effulgent-elf-0da1cb.netlify.app/ + image-value from phone-object in phones.json - To get appropriate image</h2>');
 });
 

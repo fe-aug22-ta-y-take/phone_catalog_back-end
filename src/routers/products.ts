@@ -1,8 +1,8 @@
 import express from 'express';
 
-import * as productsController from '../controllers/products';
+import * as phonesController from '../controllers/phones';
 
 export const router = express.Router();
 
-router.get('/', productsController.getAll);
-router.get('/length', productsController.getLength);
+router.get('/phones', phonesController.getAll);
+
