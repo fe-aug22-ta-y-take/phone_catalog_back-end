@@ -24,11 +24,22 @@ export const getAll = async (req: Request, res: Response) => {
     const startIndex = numbLimit * (numbOffset - 1);
     const endIndex = numbLimit * numbOffset;
 
-    if (startIndex >= products.length) {
-
-    }
-
     res.send(JSON.stringify(products.slice(startIndex, endIndex)));
+
+  } catch (error) {
+    res.sendStatus(500);
+  }
+}
+
+export const getLength = async (req: Request, res: Response) => {
+  try {
+    const data = fs.readFileSync(
+      path.resolve(__dirname, 'api', 'phones.json')
+    );
+
+    const products = JSON.parse(data.toString());
+
+    res.send(products.length);
 
   } catch (error) {
     res.sendStatus(500);

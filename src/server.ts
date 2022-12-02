@@ -2,8 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import serverless from 'serverless-http';
 import { router as productsRouter } from './routers/products';
-import { router as imagesRouter } from './routers/images';
-import path from 'path';
 
 const app = express();
 
@@ -16,10 +14,9 @@ app.get(BASE_NETLIFY_URL, (req, res) => {
   res.send('<h1>Ta-y-take_team server</h1>'
   + '<h2>GET to /products - To get all phones in json</h2>'
   + '<h2>GET to /products?limit=16&offset=1 - To get first 16 phones</h2>'
-  + '<h2>GET to /static/ + image-value from phone-object in phones.json - To get appropriate image</h2>');
+  + '<h2>GET to /products/length - To get current length of the products array</h2>'
+  + '<h2>GET to / + image-value from phone-object in phones.json - To get appropriate image</h2>');
 });
-
-app.use(`${BASE_NETLIFY_URL}/images`, express.static(path.resolve(__dirname, 'api')));
 
 app.use(`${BASE_NETLIFY_URL}/products`, productsRouter);
 
@@ -32,8 +29,6 @@ export const handler = serverless(app);
 //     + '<h2>GET to /products - To get all phones in json</h2>'
 //     + '<h2>GET to /products?limit=16&offset=1 - To get first 16 phones</h2>');
 // });
-
-// app.use('/images', express.static(path.resolve(__dirname, 'api')));
 
 // app.use('/products', productsRouter);
 
