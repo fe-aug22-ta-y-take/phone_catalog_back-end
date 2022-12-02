@@ -39,7 +39,7 @@ export const getLength = async (req: Request, res: Response) => {
 
     const products = JSON.parse(data.toString());
 
-    res.send(products.length);
+    res.send(String(products.length));
 
   } catch (error) {
     res.sendStatus(500);

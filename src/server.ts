@@ -15,7 +15,7 @@ app.get(BASE_NETLIFY_URL, (req, res) => {
   + '<h2>GET to /products - To get all phones in json</h2>'
   + '<h2>GET to /products?limit=16&offset=1 - To get first 16 phones</h2>'
   + '<h2>GET to /products/length - To get current length of the products array</h2>'
-  + '<h2>GET to / + image-value from phone-object in phones.json - To get appropriate image</h2>');
+  + '<h2>GET to https://effulgent-elf-0da1cb.netlify.app/ + image-value from phone-object in phones.json - To get appropriate image</h2>');
 });
 
 app.use(`${BASE_NETLIFY_URL}/products`, productsRouter);
