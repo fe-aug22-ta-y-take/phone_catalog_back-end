@@ -17,7 +17,7 @@ app.get(BASE_NETLIFY_URL, (req, res) => {
   <h2>GET to /products/phones?limit=16&offset=1&order=price&dir=asc - get PhonesResults
   with first 16 phones sorted by price in ascending order
   (order: price | new; dir: asc | desc)</h2>
-  <h2>GET to https://effulgent-elf-0da1cb.netlify.app/ + image-value
+  <h2>GET to https://effulgent-elf-0da1cb.netlify.app/ + image value
   from phone-object in phones.json - To get appropriate image</h2>`);
 });
 
