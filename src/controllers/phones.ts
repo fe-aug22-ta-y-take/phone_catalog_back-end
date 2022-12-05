@@ -1,17 +1,22 @@
-import fs from 'fs';
+
 import { Request, Response } from 'express';
-import path from 'path';
+
+import * as phonesService  from '../services/phones';
 import { Order } from '../types/Order';
 import { Phone } from 'src/types/Phone';
 import { PhonesResults } from 'src/types/PhonesResults';
+import { PhoneResults } from 'src/types/PhoneResults';
+import { PhoneDetails } from 'src/types/PhoneDetails';
 
 export const getAll = async (req: Request, res: Response) => {
   try {
-    const data = fs.readFileSync(
-      path.resolve(__dirname, 'api', 'phones.json')
-    );
+    const products: Phone[] | null = phonesService.getAll();
 
-    const products: Phone[] = JSON.parse(data.toString());
+    if (!products) {
+      res.sendStatus(500);
+
+      return;
+    }
 
     const phonesResults: PhonesResults = {
       edges: [],
@@ -56,7 +61,42 @@ export const getAll = async (req: Request, res: Response) => {
     phonesResults.edges = products.slice(startIndex, endIndex);
 
     res.send(JSON.stringify(phonesResults));
+  } catch (error) {
+    res.sendStatus(500);
+  }
+}
 
+export const getOne = async (req: Request, res: Response) => {
+  try {
+    const { phoneId } = req.params;
+    const phone: PhoneDetails = phonesService.getById(phoneId);
+
+    if (!phone) {
+      res.sendStatus(404);
+
+      return;
+    }
+
+    const phones: Phone[] | null = phonesService.getAll();
+
+    if (!phones) {
+      res.sendStatus(500);
+
+      return;
+    }
+
+    const phoneResults: PhoneResults = {
+      phone,
+      similar: phones,
+    }
+
+    const similarPhones = phones.filter(item => item.ram === phone.ram && item.capacity === phone.capacity);
+
+    if(similarPhones.length) {
+      phoneResults.similar = similarPhones;
+    }
+
+    res.send(JSON.stringify(phoneResults));
   } catch (error) {
     res.sendStatus(500);
   }
