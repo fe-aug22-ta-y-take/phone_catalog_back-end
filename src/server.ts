@@ -13,7 +13,8 @@ const description = `<h1>Ta-y-take_team server</h1>
 <h2>GET to /products/phones?limit=16&offset=1&order=price&dir=asc - get PhonesResults
 with first 16 phones sorted by price in ascending order
 (order: price | new; dir: asc | desc)</h2>
-<h2>GET to /products/phones/phoneId - get phone detailed info in json</h2>
+<h2>GET to /products/phones/phoneId - get interface PhoneResults
+{ phone: PhoneDetails, similar: Phone[] } in json</h2>
 <p></p>
 <h2>GET to https://effulgent-elf-0da1cb.netlify.app/ + image value
 from phone-object in phones.json - get appropriate image</h2>`;

@@ -1,64 +1,66 @@
 
 import { Request, Response } from 'express';
 
+import * as phonesService  from '../services/phones';
 import { Order } from '../types/Order';
 import { Phone } from 'src/types/Phone';
 import { PhonesResults } from 'src/types/PhonesResults';
-import * as phonesService  from '../services/phones';
+import { PhoneResults } from 'src/types/PhoneResults';
+import { PhoneDetails } from 'src/types/PhoneDetails';
 
 export const getAll = async (req: Request, res: Response) => {
   try {
     const products: Phone[] | null = phonesService.getAll();
 
-    if (products) {
-      const phonesResults: PhonesResults = {
-        edges: [],
-        count: products.length,
-      }
+    if (!products) {
+      res.sendStatus(500);
 
-      const { limit, offset, order, dir } = req.query;
+      return;
+    }
 
-      if (order && dir) {
-        products.sort((prev: Phone, next: Phone) => {
-          switch (order) {
-            case Order.New:
-              return prev.year - next.year;
+    const phonesResults: PhonesResults = {
+      edges: [],
+      count: products.length,
+    }
 
-            case Order.Price:
-              return prev.price - next.price;
+    const { limit, offset, order, dir } = req.query;
 
-            default:
-              return 0;
-          }
-        })
+    if (order && dir) {
+      products.sort((prev: Phone, next: Phone) => {
+        switch (order) {
+          case Order.New:
+            return prev.year - next.year;
 
-        if (dir === 'desc') {
-          products.reverse();
+          case Order.Price:
+            return prev.price - next.price;
+
+          default:
+            return 0;
         }
+      })
+
+      if (dir === 'desc') {
+        products.reverse();
       }
+    }
 
-      if (!limit && !offset) {
-        phonesResults.edges = products;
-
-        res.send(JSON.stringify(phonesResults));
-
-        return;
-      }
-
-      const numbLimit = Number(limit);
-      const numbOffset = Number(offset);
-
-      const startIndex = numbLimit * (numbOffset - 1);
-      const endIndex = numbLimit * numbOffset;
-
-      phonesResults.edges = products.slice(startIndex, endIndex);
+    if (!limit && !offset) {
+      phonesResults.edges = products;
 
       res.send(JSON.stringify(phonesResults));
 
       return;
     }
 
-    throw new Error('Some error');
+    const numbLimit = Number(limit);
+    const numbOffset = Number(offset);
+
+    const startIndex = numbLimit * (numbOffset - 1);
+    const endIndex = numbLimit * numbOffset;
+
+    phonesResults.edges = products.slice(startIndex, endIndex);
+
+    res.send(JSON.stringify(phonesResults));
   } catch (error) {
     res.sendStatus(500);
   }
@@ -67,23 +69,35 @@ export const getAll = async (req: Request, res: Response) => {
 export const getOne = async (req: Request, res: Response) => {
   try {
     const { phoneId } = req.params;
+    const phone: PhoneDetails = phonesService.getById(phoneId);
 
-    const phone = phonesService.getById(phoneId);
-
-    if (phone) {
-      res.send(JSON.stringify(phone));
-
-      return;
-    }
-
-    throw new Error('No such phone');
-  } catch (error: any) {
-    if (error.message === 'No such phone') {
+    if (!phone) {
       res.sendStatus(404);
 
       return;
     }
 
+    const phones: Phone[] | null = phonesService.getAll();
+
+    if (!phones) {
+      res.sendStatus(500);
+
+      return;
+    }
+
+    const phoneResults: PhoneResults = {
+      phone,
+      similar: phones,
+    }
+
+    const similarPhones = phones.filter(item => item.ram === phone.ram && item.capacity === phone.capacity);
+
+    if(similarPhones.length) {
+      phoneResults.similar = similarPhones;
+    }
+
+    res.send(JSON.stringify(phoneResults));
+  } catch (error) {
     res.sendStatus(500);
   }
 }
