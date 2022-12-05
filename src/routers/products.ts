@@ -5,4 +5,4 @@ import * as phonesController from '../controllers/phones';
 export const router = express.Router();
 
 router.get('/phones', phonesController.getAll);
-
+router.get('/phones/:phoneId', phonesController.getOne);
