@@ -4,5 +4,5 @@ import * as phonesController from '../controllers/phones';
 
 export const router = express.Router();
 
-router.get('/phones', phonesController.getAllWithQueryFilters);
-router.get('/phones/:phoneId', phonesController.getOneDetails);
+router.get('/favorites', phonesController.getByIds);
+router.get('/cart', phonesController.getByIds);
