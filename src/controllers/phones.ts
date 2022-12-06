@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 
 import * as phonesService  from '../services/phones';
 import { Order } from '../types/Order';
+import { Group } from '../types/Group';
 import { Phone } from 'src/types/Phone';
 import { PhonesResults } from 'src/types/PhonesResults';
 import { PhoneResults } from 'src/types/PhoneResults';
@@ -10,7 +11,7 @@ import { PhoneDetails } from 'src/types/PhoneDetails';
 
 export const getAllWithQueryFilters = async (req: Request, res: Response) => {
   try {
-    const products: Phone[] | null = phonesService.getAll();
+    let products: Phone[] | null = phonesService.getAll();
 
     if (!products) {
       res.sendStatus(500);
@@ -18,12 +19,20 @@ export const getAllWithQueryFilters = async (req: Request, res: Response) => {
       return;
     }
 
-    const phonesResults: PhonesResults = {
-      edges: [],
-      count: products.length,
-    }
+    const { limit, offset, order, dir, group } = req.query;
 
-    const { limit, offset, order, dir } = req.query;
+    if (group) {
+      products = products.filter(product => {
+        switch (group) {
+          case Group.New:
+            return product.year === 2019;
+          case Group.Discount:
+            return product.price !== product.fullPrice;
+          default:
+            return false;
+        }
+      });
+    }
 
     if (order && dir) {
       products.sort((prev: Phone, next: Phone) => {
@@ -44,9 +53,12 @@ export const getAllWithQueryFilters = async (req: Request, res: Response) => {
       }
     }
 
-    if (!limit && !offset) {
-      phonesResults.edges = products;
+    const phonesResults: PhonesResults = {
+      edges: products,
+      count: products.length,
+    }
 
+    if (!limit && !offset) {
       res.send(JSON.stringify(phonesResults));
 
       return;
@@ -102,11 +114,8 @@ export const getOneDetails = async (req: Request, res: Response) => {
   }
 }
 
-export const getFiltered = async (req: Request, res: Response) => {
+export const getByIds = async (req: Request, res: Response) => {
   try {
-    const url = req.url.split('/');
-    const filterBy = url[url.length - 1];
-
     const products: Phone[] | null = phonesService.getAll();
 
     if (!products) {
@@ -115,16 +124,19 @@ export const getFiltered = async (req: Request, res: Response) => {
       return;
     }
 
-    const filteredProducts = products.filter(product => {
-      switch (filterBy) {
-        case 'phones-new':
-          return product.year === 2019;
-        case 'phones-discount':
-          return product.price !== product.fullPrice;
-        default:
-          return true;
-      }
-    });
+    const { ids } = req.query;
+
+    if (!ids?.length) {
+      res.sendStatus(400);
+
+      return;
+    }
+
+    const parsedIds = (ids as string).split(',');
+
+    const filteredProducts = products.filter(product => (
+      parsedIds.includes(String(product.id))
+    ));
 
     res.send(JSON.stringify(filteredProducts));
   } catch {
