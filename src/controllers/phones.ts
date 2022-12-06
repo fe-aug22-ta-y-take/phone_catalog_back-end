@@ -115,13 +115,10 @@ export const getFiltered = async (req: Request, res: Response) => {
       return;
     }
 
-    const today = new Date();
-    const year = today.getFullYear();
-
     const filteredProducts = products.filter(product => {
       switch (filterBy) {
         case 'phones-new':
-          return product.year === year;
+          return product.year === 2019;
         case 'phones-discount':
           return product.price !== product.fullPrice;
         default:
