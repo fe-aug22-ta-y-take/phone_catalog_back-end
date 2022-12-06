@@ -120,9 +120,9 @@ export const getFiltered = async (req: Request, res: Response) => {
 
     const filteredProducts = products.filter(product => {
       switch (filterBy) {
-        case 'new':
+        case 'phones-new':
           return product.year === year;
-        case 'discount':
+        case 'phones-discount':
           return product.price !== product.fullPrice;
         default:
           return true;
