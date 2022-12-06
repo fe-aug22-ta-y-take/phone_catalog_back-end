@@ -8,7 +8,7 @@ import { PhonesResults } from 'src/types/PhonesResults';
 import { PhoneResults } from 'src/types/PhoneResults';
 import { PhoneDetails } from 'src/types/PhoneDetails';
 
-export const getAll = async (req: Request, res: Response) => {
+export const getAllWithQueryFilters = async (req: Request, res: Response) => {
   try {
     const products: Phone[] | null = phonesService.getAll();
 
@@ -66,7 +66,7 @@ export const getAll = async (req: Request, res: Response) => {
   }
 }
 
-export const getOne = async (req: Request, res: Response) => {
+export const getOneDetails = async (req: Request, res: Response) => {
   try {
     const { phoneId } = req.params;
     const phone: PhoneDetails = phonesService.getById(phoneId);
@@ -98,6 +98,39 @@ export const getOne = async (req: Request, res: Response) => {
 
     res.send(JSON.stringify(phoneResults));
   } catch (error) {
+    res.sendStatus(500);
+  }
+}
+
+export const getFiltered = async (req: Request, res: Response) => {
+  try {
+    const url = req.url.split('/');
+    const filterBy = url[url.length - 1];
+
+    const products: Phone[] | null = phonesService.getAll();
+
+    if (!products) {
+      res.sendStatus(500);
+
+      return;
+    }
+
+    const today = new Date();
+    const year = today.getFullYear();
+
+    const filteredProducts = products.filter(product => {
+      switch (filterBy) {
+        case 'new':
+          return product.year === year;
+        case 'discount':
+          return product.price !== product.fullPrice;
+        default:
+          return true;
+      }
+    });
+
+    res.send(JSON.stringify(filteredProducts));
+  } catch {
     res.sendStatus(500);
   }
 }

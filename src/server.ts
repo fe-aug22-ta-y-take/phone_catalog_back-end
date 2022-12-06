@@ -15,6 +15,8 @@ with first 16 phones sorted by price in ascending order
 (order: price | new; dir: asc | desc)</h2>
 <h2>GET to /products/phones/phoneId - get interface PhoneResults
 { phone: PhoneDetails, similar: Phone[] } in json</h2>
+<h2>GET to /products/phones/new - get Phone[] with current year</h2>
+<h2>GET to /products/phones/new - get Phone[] with price !== fullPrice</h2>
 <p></p>
 <h2>GET to https://effulgent-elf-0da1cb.netlify.app/ + image value
 from phone-object in phones.json - get appropriate image</h2>`;
