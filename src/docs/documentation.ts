@@ -1,4 +1,4 @@
-export const description = `<h1>Ta-y-take_team server</h1>
+export const description: string = `<h1>Ta-y-take_team server</h1>
 
 <h2>GET to /products/phones - get interface PhonesResults
 { edges: Phone[], count: number } in json</h2>
@@ -12,7 +12,7 @@ with only 2019 year phones
 (group: new || discount)</h2>
 
 <h2>GET to /products/phones/phoneId - get interface PhoneResults
-{ phone: PhoneDetails, similar: Phone[] } in json</h2>
+{ phone: PhoneDetails, id: string, similar: Phone[] } in json</h2>
 
 <h2>GET to /users/favorites?ids=1,33,5,7 - get Phone[] only with ids from query</h2>
 <h2>GET to /users/cart?ids=1,33,5,7 - get Phone[] only with ids from query</h2>

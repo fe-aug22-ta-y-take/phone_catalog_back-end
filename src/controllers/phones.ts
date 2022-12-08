@@ -97,12 +97,21 @@ export const getOneDetails = async (req: Request, res: Response) => {
       return;
     }
 
-    const phoneResults: PhoneResults = {
-      phone,
-      similar: phones,
+    const phoneFromDb = phones.find(item => item.phoneId === phoneId);
+
+    if (!phoneFromDb) {
+      res.sendStatus(500);
+
+      return;
     }
 
-    const similarPhones = phones.filter(item => item.ram === phone.ram && item.capacity === phone.capacity);
+    const phoneResults: PhoneResults = {
+      phone,
+      id: phoneFromDb.id,
+      similar: phones,
+    };
+
+    const similarPhones = phones.filter(item => item.ram === phone.ram && item.capacity === phone.capacity && item.phoneId !== phone.id);
 
     if(similarPhones.length) {
       phoneResults.similar = similarPhones;
