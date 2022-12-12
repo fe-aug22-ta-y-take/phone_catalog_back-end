@@ -4,6 +4,6 @@ import { PhoneDetails } from './PhoneDetails'
 
 export interface PhoneResults {
   phone: PhoneDetails,
-  id: string,
+  currPhone: Phone,
   similar: Phone[],
 }

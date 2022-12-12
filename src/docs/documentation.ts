@@ -17,7 +17,7 @@ with only latest years phones, where 'group' could be 'new' || 'discount'.</h3>
 
 <h2>GET to /products/phones/phoneId</h2>
 <h3 style="color:OrangeRed;">Response: interface PhoneResults
-{ phone: PhoneDetails, id: string, similar: Phone[] }, where 'id' is current phone id from the general Phone[].</h3>
+{ phone: PhoneDetails, currPhone: Phone, similar: Phone[] }, where 'currPhone' is current phone from the general Phone[].</h3>
 
 <h2>GET to /users/favorites?ids=1,33,5,7</h2>
 <h2>GET to /users/cart?ids=1,33,5,7</h2>
