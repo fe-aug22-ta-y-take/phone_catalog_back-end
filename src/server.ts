@@ -20,16 +20,3 @@ app.use(`${BASE_NETLIFY_URL}/products`, productsRouter);
 app.use(`${BASE_NETLIFY_URL}/users`, usersRouter);
 
 export const handler = serverless(app);
-
-// For development testing:
-
-// app.get('/', (req, res) => {
-//   res.send(description);
-// });
-
-// app.use('/products', productsRouter);
-// app.use('/users', usersRouter);
-
-// app.listen(5000, () => {
-//   console.log('Server started');
-// });
