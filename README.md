@@ -1,4 +1,7 @@
-# phone_catalog_back-end
+# Simple server for the [Phone Catalog team pet-project](https://fe-aug22-ta-y-take.github.io/phone_catalog_front-end/) hosted on Netlify.
+- [DEMO LINK](https://effulgent-elf-0da1cb.netlify.app/.netlify/functions/server)
 
-1. U can use 'npm run nodemon' for starting server locally.
-2. Before production change '// For development testing:' block in server.ts on '// For production:' block.
+## Technologies:
+- Node.js
+- Express
+- MVC pattern
