@@ -107,7 +107,7 @@ export const getOneDetails = async (req: Request, res: Response) => {
 
     const phoneResults: PhoneResults = {
       phone,
-      id: phoneFromDb.id,
+      currPhone: phoneFromDb,
       similar: phones,
     };
 
